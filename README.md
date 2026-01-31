@@ -1,11 +1,11 @@
 
-# NeuroX-Sim (Memory-Centric Neuromorphic Simulator)
+# NeuroM-Sim (Neuromorphic Memory Centric Simulator)
 
 **Developed by Team Morpheus for the Micron Memory Competition**
 
 ## Project Overview
 
-**NeuroX-Sim** is a cycle-accurate hardware simulation framework designed to evaluate the efficiency of memory-centric neuromorphic architectures. Unlike standard software neural networks, this framework simulates the low-level hardware interactions between **Synaptic Memory Banks** and **Neuron Units**, specifically focusing on how memory bandwidth and organization (Vaults) impact spiking neural network (SNN) performance.
+**NeuroM-Sim** is a cycle-accurate hardware simulation framework designed to evaluate the efficiency of memory-centric neuromorphic architectures. Unlike standard software neural networks, this framework simulates the low-level hardware interactions between **Synaptic Memory Banks** and **Neuron Units**, specifically focusing on how memory bandwidth and organization (Vaults) impact spiking neural network (SNN) performance.
 
 This project addresses the "Memory Wall" by implementing hardware-inspired features like weight caching, zero-spike skipping, and clock-gating, aligning with Micron's focus on high-performance, high-density memory solutions.
 
