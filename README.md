@@ -1,146 +1,89 @@
-## README.md
 
-```markdown
-# NeuroX-Sim: Memory-Centric Neuromorphic Architecture Simulator
+# NeuroX-Sim (Memory-Centric Neuromorphic Simulator)
 
-NeuroX-Sim is a **cycle-aware, memory-centric digital neuromorphic architecture simulator** designed to study event-driven spiking neural networks (SNNs) from a **hardware-first perspective**.
+**Developed by Team Morpheus for the Micron Memory Competition**
 
-The simulator is inspired by modern neuromorphic processors such as **Neurocube**, **LSMCore**, and other memory-centric neuromorphic systems, focusing on **co-located memory and computation**, **sparsity exploitation**, and **hardware-observable metrics**.
+## Project Overview
 
----
+**NeuroX-Sim** is a cycle-accurate hardware simulation framework designed to evaluate the efficiency of memory-centric neuromorphic architectures. Unlike standard software neural networks, this framework simulates the low-level hardware interactions between **Synaptic Memory Banks** and **Neuron Units**, specifically focusing on how memory bandwidth and organization (Vaults) impact spiking neural network (SNN) performance.
 
-## Key Features
+This project addresses the "Memory Wall" by implementing hardware-inspired features like weight caching, zero-spike skipping, and clock-gating, aligning with Micron's focus on high-performance, high-density memory solutions.
 
-### Memory-Centric Execution
-- Explicit **NeuroSequence FSM** (IDLE, READ, ACCUMULATE, UPDATE, LEARN)
-- Event-driven control flow instead of clock-driven neuron updates
-- Models **memory-driven state machines** used in real neuromorphic hardware
-
-### Event-Driven & Sparse Computation
-- Zero-spike skipping
-- Zero-weight skipping
-- Clock-gated neuron updates
-- Dynamic sparsity exploitation for energy-efficient execution
-
-### Digital Neuron Model
-- Leaky Integrate-and-Fire (LIF) neurons
-- Threshold-based spiking
-- Leakage-dominated clock gating
-
-### Learning & Plasticity
-- Spike-Timing-Dependent Plasticity (STDP)
-- Multi-timescale learning
-- Slow **homeostatic plasticity** to stabilize firing rates
-- Accumulated synaptic updates (write-buffer style)
-
-### Hardware-Inspired Memory System
-- Even/Odd synaptic banks
-- Effective weight masking (precision reduction)
-- Active bitmap for synapse enable/disable
-- Small per-neuron weight cache with hit/miss statistics
-
-### Reservoir / LSM-Style Dynamics
-- Recurrent spiking activity
-- Spike raster visualization
-- Suitable for studying liquid-state behavior
+This framework serves as a demonstration of **Memory-Centric Neuromorphic Computing**. By embedding state-machines within vault controllers (as seen in architectures like Neurocube), we demonstrate how to minimize data movement and maximize the efficiency of the memory tier for AI workloads.
 
 ---
 
-## Observability & Outputs
+## Key Hardware Features
 
-The simulator provides **hardware-meaningful observability**, including:
+* **Vault-Based Architecture:** Simulates a multi-vault memory organization where each vault manages its own synaptic memory and neuron clusters.
+* **NeuroSequence FSM:** A custom Finite State Machine (IDLE -> READ -> ACCUM -> UPDATE -> LEARN) that governs the memory-centric control flow.
+* **SRAM Optimization:** * **Weight Caching:** Hardware-inspired cache to reduce redundant memory reads.
+* **Zero-Skipping:** Logic to bypass memory fetches for zero-value spikes or weights, saving dynamic power.
+* **Clock-Gating:** Disables neuron membrane updates when input activity is below a threshold.
 
-### Plots
-- Membrane potential evolution
-- Synaptic current traces
-- NeuroSequence FSM timeline
-- Spike raster (reservoir dynamics)
-- Synaptic update distribution
 
-### Console Metrics
-- Total cycles
-- Inference vs learning cycles
-- Clock-gated neuron count
-- SRAM idle cycles
-- Zero-spike and zero-weight skips
-- Cache hit rate
-- Effective hardware utilization
-- Pending synaptic updates
-
-These metrics mirror those reported in **neuromorphic ASIC papers**, enabling architectural comparison and analysis.
+* **Synaptic Plasticity:** On-chip learning via Spike-Timing-Dependent Plasticity (STDP) and Homeostatic rate control.
 
 ---
 
-## 🏗 Project Structure
+## Project Structure
+
+```text
+Neuromorphic_Framework/
+├── main.py                 # Core simulation engine, FSM, and logic
+├── README.md               # Project documentation
+└── requirements.txt        # numpy, matplotlib
 
 ```
 
-Neuromorphic_Framework/
-│
-├── neurosim.py          # Main neuromorphic simulator
-├── README.md            # Project documentation
-├── requirements.txt    # Python dependencies
-└── .gitignore           # Git ignore rules
+---
 
-````
+## Technical Specifications
+
+* **Neuron Model:** Leaky Integrate-and-Fire (LIF) with gated execution.
+* **Memory Structure:** Split-bank (Even/Odd) synaptic storage to simulate interleaved memory access.
+* **Precision:** Configurable bit-width (default 4-bit raw, 3-bit effective) for energy-efficient weight storage.
+* **Learning:** Dual-mode plasticity (STDP for correlation, Homeostasis for stability).
 
 ---
 
 ## How to Run
 
-### 1. Install dependencies
+1. **Environment Setup**:
 ```bash
-pip install -r requirements.txt
-````
+pip install numpy matplotlib
 
-### 2. Run the simulator
-
-```bash
-python neurosim.py
 ```
 
-The simulator will:
 
-* Execute the neuromorphic model
-* Display plots for neural and architectural behavior
-* Print a detailed hardware performance report
+2. **Execute Simulation**:
+```bash
+python main.py
 
----
+```
 
-## Intended Use Cases
 
-* Neuromorphic architecture exploration
-* Memory-centric computing research
-* Studying sparsity and event-driven execution
-* Educational tool for digital neuromorphic systems
-* Pre-RTL architectural validation
+3. **Analyze Hardware Reports**:
+Upon completion, the framework generates a detailed **Hardware Performance Report** including:
+* Weight Cache Hit Rate
+* Effective Hardware Utilization %
+* Clock-Gating Efficiency
+* Zero-Spike/Weight Skip counts
 
----
 
-##  Conceptual Inspiration
-
-This project is inspired by:
-
-* Memory-centric neuromorphic processors
-* Digital spiking neural network accelerators
-* Liquid State Machines (LSM)
-* STDP-based on-chip learning architectures
-
-The simulator does **not** aim to be a biological simulator, but rather a **hardware-faithful architectural model**.
 
 ---
 
-## Future Extensions
+## Visualization Suite
 
-Planned or possible extensions include:
+The framework automatically generates five diagnostic plots to analyze the system:
 
-* ADC/DAC quantization effects
-* Memristor non-linearity models
-* Vault-to-vault interconnect contention
-* Energy estimation models
-* RTL correlation hooks
-* Dataset-driven spike injection
+1. **Membrane Potential Dynamics**: Tracks the V_mem of individual hardware neurons.
+2. **Synaptic Current**: Visualizes the input load on the processing tier.
+3. **NeuroSequence FSM**: Displays the real-time state transitions of the memory controller.
+4. **Spike Raster**: Maps the spiking activity (Reservoir Dynamics) over time.
+5. **Synaptic Update Distribution**: Shows the histogram of weight changes (ΔWeight) pending for the next memory write-back.
 
 ---
 
-
+To observe higher hardware utilization, modify the `NeuroConfig` class in `main.py` to adjust the `LEAK_RATE` or increase the input spike density in the `run_simulation` function.
