@@ -88,3 +88,18 @@ The framework automatically generates five diagnostic plots to analyze the syste
 ---
 
 To observe higher hardware utilization, modify the `NeuroConfig` class in `main.py` to adjust the `LEAK_RATE` or increase the input spike density in the `run_simulation` function.
+
+## Future Plans & Scalability
+
+HBM3/4 Integration: Future iterations will include a specialized simulation layer for High Bandwidth Memory (HBM) stacks, modeling the through-silicon via (TSV) latency and thermal constraints of 3D-stacked synaptic banks.
+
+Asynchronous Processing Elements (PE): Moving from a centralized FSM to a distributed, "Near-Data" processing model where logic is embedded directly within the logic base of a 3D-DRAM stack.
+
+Crossbar Memristive Arrays: Integration of RRAM/PCM models to simulate non-volatile synaptic weights, allowing for "Instant-On" neuromorphic states and near-zero leakage power.
+
+Large-Scale Topology (Mesh-of-Vaults): Scalability testing for Network-on-Chip (NoC) architectures where thousands of vaults communicate via an asynchronous packet-switched mesh.
+
+## Conclusion
+The NeuroM-Sim framework by Team Morpheus addresses a significant bottleneck in modern architectures: the Von Neumann Paradox. By shifting the focus from "Processing-Centric" to "Memory-Centric" design, we have demonstrated a system where the memory bank is no longer a passive storage unit but an active participant in the neural computation.
+
+For the Micron Mimory Competition, this simulator provides a quantitative look at how specialized hardware features—such as weight caching, vault-local FSMs, and zero-skipping—can drastically reduce the energy-per-synaptic-operation. Our results indicate that through aggressive memory-tier optimization, neuromorphic hardware can achieve the high-density, low-power targets required for the next generation of ubiquitous edge intelligence.
