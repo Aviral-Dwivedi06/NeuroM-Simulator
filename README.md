@@ -1,6 +1,6 @@
 
 # NeuroM-Sim 
-##(Neuromorphic Memory Centric Simulator)
+## (Neuromorphic Memory Centric Simulator)
 
 **Developed by Team Morpheus for the Micron Mimory Competition**
 
